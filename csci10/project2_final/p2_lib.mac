@@ -19,8 +19,25 @@ struc	Items
 	.stock:	resd	1
 endstruc
 
-%macro	print 1
+%macro	outputItem 2
 	sub		esp, 16
+	mov		dword[esp], %1
+	mov		dword[esp+4], %2+Items.name
+	call	_printf
+	add		esp, 16
+%endmacro
+
+%macro	outputPrice	2
+	sub		esp, 16
+	mov		dword[esp], %1
+	mov		eax, [%2+Items.price]
+	mov		dword[esp+4], eax
+	call	_printf
+	add		esp, 16
+%endmacro
+
+%macro	print 1
+	sub 	esp, 16
 	mov		dword[esp], %1
 	call	_printf
 	add		esp, 16
@@ -62,7 +79,7 @@ endstruc
 	%endrep
 %endmacro
 
-%macro	callSystem	1
+%macro	callSys	1
 	sub		esp, 16
 	mov 	dword[esp], %1
 	call	_system
@@ -70,20 +87,22 @@ endstruc
 %endmacro
 
 section .data
-	endline		db	"", 10, 0
-	clear		db	"cls", 0
-	line		db	"--------------------------------------------------", 10, 0
+	endline			db	"", 10, 0
+	clear				db	"cls", 0
+	line				db	"--------------------------------------------------", 10, 0
 	item_prmpt	db	"What would you like to buy? (0-6)", 10 ,0
 	item_input	dd	0
 
 	guide_frmt	db 	"|%s		|| %s	|| %s |", 10, 0
-	uint_frmt	db	"%u", 0
+	uint_frmt		db	"%u", 0
+	itm_frmt		db	"You have selected %s", 10, 0
+	price_frmt	db	"Amount Due: %u", 10, 0
 
-	ascii1		db	" __     _______ _   _ ____ ___ _   _  ____   __  __    _    ____ _   _ ___ _   _ _____ ", 10, 0
-	ascii2		db	" \ \   / / ____| \ | |  _ \_ _| \ | |/ ___| |  \/  |  / \  / ___| | | |_ _| \ | | ____|", 10, 0
-	ascii3		db	"  \ \ / /|  _| |  \| | | | | ||  \| | |  _  | |\/| | / _ \| |   | |_| || ||  \| |  _|", 10, 0
-	ascii4		db	"   \ V / | |___| |\  | |_| | || |\  | |_| | | |  | |/ ___ \ |___|  _  || || |\  | |___", 10, 0
-	ascii5		db	"    \_/  |_____|_| \_|____/___|_| \_|\____| |_|  |_/_/   \_\____|_| |_|___|_| \_|_____|", 10, 0
+	ascii1			db	" __     _______ _   _ ____ ___ _   _  ____   __  __    _    ____ _   _ ___ _   _ _____ ", 10, 0
+	ascii2			db	" \ \   / / ____| \ | |  _ \_ _| \ | |/ ___| |  \/  |  / \  / ___| | | |_ _| \ | | ____|", 10, 0
+	ascii3			db	"  \ \ / /|  _| |  \| | | | | ||  \| | |  _  | |\/| | / _ \| |   | |_| || ||  \| |  _|", 10, 0
+	ascii4			db	"   \ V / | |___| |\  | |_| | || |\  | |_| | | |  | |/ ___ \ |___|  _  || || |\  | |___", 10, 0
+	ascii5			db	"    \_/  |_____|_| \_|____/___|_| \_|\____| |_|  |_/_/   \_\____|_| |_|___|_| \_|_____|", 10, 0
 
 	guide1:
 		istruc	Guide

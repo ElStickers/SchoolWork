@@ -23,8 +23,8 @@ c_project2.exe: c_project2.c
 asm_project2.exe: asm_project2.obj
 	$(CO) asm_project2.obj -o asm_project2.exe
 
-asm_project2.obj: asm_project2.asm
-	nasm -f $(FORMAT) asm_project2.asm -o asm_project2.obj
+asm_project2.obj: asm_p2.asm
+	nasm -f $(FORMAT) asm_p2.asm -o asm_project2.obj
 
 clean:
 	$(RM) *.obj
