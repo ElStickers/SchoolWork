@@ -30,7 +30,7 @@ _main:
 		print				line
 		printGuide	guide_frmt, guide1
 		print 			line
-		printItem 	item0, item1, item2, item3, item4, item5
+		printItem 	item1, item2, item3, item4, item5, item6
 		print				line
 
 		print 		item_prmpt
@@ -45,9 +45,18 @@ _main:
 		je				_output1
 
 	_output1:
-		outputItem		itm_frmt, item0
-		outputPrice		price_frmt, item0
+		outputItem		itm_frmt, item1
+		outputPrice		price_frmt, item1
+		mov						eax, [item1+Items.price]
+		print					pymnt_amnt
+		jmp						_pay
 
+	_output2:
+		outputItem		itm_frmt, item2
+		outputPrice		price_frmt, item2
+		jmp						_pay
+	_pay:
+		print 				pymnt_prmpt
 	_exit:
 
 	mov		esp, ebp

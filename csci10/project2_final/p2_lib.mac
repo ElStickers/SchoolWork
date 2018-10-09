@@ -91,12 +91,15 @@ section .data
 	clear				db	"cls", 0
 	line				db	"--------------------------------------------------", 10, 0
 	item_prmpt	db	"What would you like to buy? (0-6)", 10 ,0
+	pymnt_prmpt	db	"Please enter the amount of credits you would like to pay with", 10, 0
 	item_input	dd	0
+	pymnt_input	dd	0
+	pymnt_amnt	dd	0
 
 	guide_frmt	db 	"|%s		|| %s	|| %s |", 10, 0
 	uint_frmt		db	"%u", 0
 	itm_frmt		db	"You have selected %s", 10, 0
-	price_frmt	db	"Amount Due: %u", 10, 0
+	price_frmt	db	"Amount Due: %u credits", 10, 0
 
 	ascii1			db	" __     _______ _   _ ____ ___ _   _  ____   __  __    _    ____ _   _ ___ _   _ _____ ", 10, 0
 	ascii2			db	" \ \   / / ____| \ | |  _ \_ _| \ | |/ ___| |  \/  |  / \  / ___| | | |_ _| \ | | ____|", 10, 0
@@ -111,7 +114,7 @@ section .data
 			at	Guide.stock,	db	"Stock", 0
 		iend
 
-	item0:
+	item1:
 		istruc	Items
 			at	Items.frmt,		db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 			at	Items.num,		dd	1
@@ -120,7 +123,7 @@ section .data
 			at	Items.stock,	dd	3
 		iend
 
-	item1:
+	item2:
 		istruc	Items
 			at	Items.frmt,		db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 			at	Items.num,		dd	2
@@ -129,7 +132,7 @@ section .data
 			at	Items.stock,	dd	9
 		iend
 
-	item2:
+	item3:
 		istruc	Items
 			at	Items.frmt,		db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 			at	Items.num,		dd	3
@@ -138,7 +141,7 @@ section .data
 			at	Items.stock,	dd	7
 		iend
 
-	item3:
+	item4:
 		istruc	Items
 			at	Items.frmt,		db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 			at	Items.num,		dd	4
@@ -147,7 +150,7 @@ section .data
 			at	Items.stock,	dd	23
 		iend
 
-	item4:
+	item5:
 		istruc	Items
 			at	Items.frmt,		db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 			at	Items.num,		dd	5
@@ -156,7 +159,7 @@ section .data
 			at	Items.stock,	dd	3
 		iend
 
-	item5:
+	item6:
 		istruc	Items
 			at	Items.frmt,		db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 			at	Items.num,		dd	6
