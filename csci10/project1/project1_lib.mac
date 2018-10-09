@@ -1,0 +1,75 @@
+;Author		: Juan Palos
+;Name		: stickers_lib.mac
+;Description: library of macros used frequently
+;			  hopefully will continue to grow
+;			  This turned into  a file filled with variables 
+;			  used for this project 
+
+extern _printf
+extern _scanf
+extern _system
+
+%macro print 1
+	sub esp, 16
+	mov dword[esp], %1
+	call _printf
+	add esp, 16
+%endmacro
+
+;%1 frmt, %2 name, %3 price, %4 stock
+%macro item_display 4
+	sub esp, 16
+	mov dword[esp], %1
+	mov dword[esp+4], %2
+	mov eax, dword[%3]
+	mov dword[esp+8], eax
+	mov eax, dword[%4]
+	mov dword[esp+12], eax
+	call _printf
+	add esp, 16
+%endmacro
+
+%macro call_system 1
+	sub esp, 16
+	mov dword[esp], %1
+	call _system
+	add esp, 16
+%endmacro
+
+%macro scan 2
+	sub   esp, 16
+    mov   dword [esp], %1
+    mov   dword [esp+4], %2
+    call  _scanf
+    add   esp, 16
+%endmacro
+
+%macro print2 2
+	sub esp, 16
+	mov dword[esp], %1
+	mov dword[esp+4], %2
+	call _printf
+	add esp, 16
+%endmacro
+
+section .data
+	endline		db	"", 10, 0
+	clear		db	"cls", 0
+	uintfmt		db	"%u", 0
+	charfmt		db	" %c", 0
+	input		db 	0
+	welcome		db	"		Butte College Vending", 0
+	line		db	"	  Butte College Vending", 10, "=============================================", 0
+	line2		db	"=============================================", 0
+	disp_frmt	db	"|| %s, price: $%d.00, stock: %d", 0
+	item1		db	"1) Pepsi", 0
+	item2		db	"2) Coke", 0
+	item3		db	"3) Sprite", 0
+	item4		db	"4) Dr. Pepper", 0
+	item5		db	"5) Water", 0
+	exit		db	"|| 0) Exit", 0
+	stock		dd	10, 0
+	price		dd	2, 0
+	out_prmpt	db	"You have selected item %s.", 0
+	prompt1		db	"Select and item: ", 0
+	again		db	"Would you like to select another item? [y/n]", 0

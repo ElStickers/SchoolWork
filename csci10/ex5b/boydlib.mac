@@ -1,0 +1,45 @@
+extern _printf
+extern _system
+
+; for loop, prints "i"
+; %1 is times to loop 
+%macro for_loop 1
+	mov eax, dword %1
+	mov ecx, 0
+	%%_start_for_loop:
+		cmp ecx, eax 
+		jnb %%_end_for_loop
+		
+		printConstant ecx 
+		jmp %%_start_for_loop
+	
+	%%_end_for_loop:
+%endmacro 
+
+; this one is garbage
+%macro printConstant 2 
+	sub esp, 16 
+	mov dword[esp], %1 
+	call _printf
+	add esp, 16 
+%endmacro 
+
+; %1 fmt string, %2 name, %3 price, %4 stock
+%macro product_display 4
+	sub esp, 16 
+	mov dword[esp], %1
+	mov dword[esp+4], %2
+	mov eax, dword[%3]
+	mov dword[esp+8], eax
+	mov eax, dword[%4]
+	mov dword[esp+12], eax 
+	call _printf
+	add esp, 16 
+%endmacro
+
+%macro call_system 1 
+	sub esp, 16 
+	mov dword[esp], %1 
+	call _system
+	add esp, 16
+%endmacro
