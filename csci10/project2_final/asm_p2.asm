@@ -44,19 +44,66 @@ _main:
 		cmp				al, 1
 		je				_output1
 
+		mov				al, [item_input]
+		cmp				al, 2
+		je				_output2
+
+		mov 			al, [item_input]
+		cmp				al, 3
+		je				_output3
+
+		mov				al, [item_input]
+		cmp				al, 4
+		je				_output4
+
+		mov				al, [item_input]
+		cmp				al, 5
+		je				_output5
+
+		mov				al, [item_input]
+		cmp				al, 6
+		je				_output6
+
 	_output1:
 		outputItem		itm_frmt, item1
-		outputPrice		price_frmt, item1
 		mov						eax, [item1+Items.price]
-		print					pymnt_amnt
+		mov						[pymnt_amnt], eax
 		jmp						_pay
 
 	_output2:
 		outputItem		itm_frmt, item2
-		outputPrice		price_frmt, item2
+		mov						eax, [item2+Items.price]
+		mov						[pymnt_amnt], eax
 		jmp						_pay
+
+	_output3:
+		outputItem		itm_frmt, item3
+		mov						eax, [item3+Items.price]
+		mov						[pymnt_amnt], eax
+		jmp						_pay
+
+	_output4:
+		outputItem		itm_frmt, item4
+		mov						eax, [item4+Items.price]
+		mov						[pymnt_amnt], eax
+		jmp						_pay
+
+	_output5:
+		outputItem		itm_frmt, item5
+		mov						eax, [item5+Items.price]
+		mov						[pymnt_amnt], eax
+		jmp						_pay
+
+	_output6:
+		outputItem		itm_frmt, item6
+		mov						eax, [item6+Items.price]
+		mov						[pymnt_amnt], eax
+		jmp						_pay
+
 	_pay:
 		print 				pymnt_prmpt
+		outputPrice		price_frmt, pymnt_amnt
+
 	_exit:
 
 	mov		esp, ebp

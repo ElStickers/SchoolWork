@@ -30,7 +30,7 @@ endstruc
 %macro	outputPrice	2
 	sub		esp, 16
 	mov		dword[esp], %1
-	mov		eax, [%2+Items.price]
+	mov		eax, [%2]
 	mov		dword[esp+4], eax
 	call	_printf
 	add		esp, 16
@@ -39,6 +39,15 @@ endstruc
 %macro	print 1
 	sub 	esp, 16
 	mov		dword[esp], %1
+	call	_printf
+	add		esp, 16
+%endmacro
+
+%macro	printDigit 2
+	sub		esp, 16
+	mov		dword[esp], %1
+	mov		eax, [%2]
+	mov		dword[esp+4], eax
 	call	_printf
 	add		esp, 16
 %endmacro
@@ -90,14 +99,14 @@ section .data
 	endline			db	"", 10, 0
 	clear				db	"cls", 0
 	line				db	"--------------------------------------------------", 10, 0
-	item_prmpt	db	"What would you like to buy? (0-6)", 10 ,0
+	item_prmpt	db	"What would you like to buy? (1-6) (0 to exit)", 10 ,0
 	pymnt_prmpt	db	"Please enter the amount of credits you would like to pay with", 10, 0
 	item_input	dd	0
 	pymnt_input	dd	0
 	pymnt_amnt	dd	0
 
 	guide_frmt	db 	"|%s		|| %s	|| %s |", 10, 0
-	uint_frmt		db	"%u", 0
+	uint_frmt		db	"%d", 0
 	itm_frmt		db	"You have selected %s", 10, 0
 	price_frmt	db	"Amount Due: %u credits", 10, 0
 
