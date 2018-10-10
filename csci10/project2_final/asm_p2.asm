@@ -103,7 +103,18 @@ _main:
 	_pay:
 		print 				pymnt_prmpt
 		outputPrice		price_frmt, pymnt_amnt
+		print					credit_out
+		scan					uint_frmt, credits
 
+	_check_change:
+		mov						al, [credits]
+		cmp						al, [pymnt_amnt]
+		jb						_pay
+		je						_change
+
+	_change:
+		print 				item_prmpt
+		
 	_exit:
 
 	mov		esp, ebp
