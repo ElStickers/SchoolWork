@@ -105,7 +105,7 @@ _main:
 		outputPrice		price_frmt, pymnt_amnt
 
 	_exit:
-
+	
 	mov		esp, ebp
 	mov		eax, 1
 	pop		ebp
