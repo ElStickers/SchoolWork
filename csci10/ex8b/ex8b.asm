@@ -138,3 +138,17 @@ _main:
     mov   eax, 1
     pop   ebp
     ret
+
+    %macro	print 1-*
+    	pushad
+    		mov ebx, 0
+    		sub 	esp, 16
+    		%rep %0
+    			mov		dword[esp+ebx], %1
+    			add 	ebx, 4
+    			%rotate 1
+    		%endrep
+    		call	_printf
+    		add		esp, 16
+    	popad
+    %endmacro

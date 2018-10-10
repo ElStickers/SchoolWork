@@ -20,84 +20,138 @@ struc	Items
 endstruc
 
 %macro	outputItem 2
-	sub		esp, 16
-	mov		dword[esp], %1
-	mov		dword[esp+4], %2+Items.name
-	call	_printf
-	add		esp, 16
+	pushad
+		sub		esp, 16
+		mov		dword[esp], %1
+		mov		dword[esp+4], %2+Items.name
+		call	_printf
+		add		esp, 16
+	popad
 %endmacro
 
 %macro	outputPrice	2
-	sub		esp, 16
-	mov		dword[esp], %1
-	mov		eax, [%2]
-	mov		dword[esp+4], eax
-	call	_printf
-	add		esp, 16
+	pushad
+		sub		esp, 16
+		mov		dword[esp], %1
+		mov		eax, [%2]
+		mov		dword[esp+4], eax
+		call	_printf
+		add		esp, 16
+	popad
 %endmacro
 
 %macro	print 1-*
-mov ebx, 0
-	sub 	esp, 16
-	%rep %0
-	mov		dword[esp+ebx], %1
-	add ebx, 4
-	%rotate 1
-	%endrep
-	call	_printf
-	add		esp, 16
+	pushad
+		mov ebx, 0
+		sub 	esp, 16
+		%rep %0
+			mov		dword[esp+ebx], %1
+			add 	ebx, 4
+			%rotate 1
+		%endrep
+		call	_printf
+		add		esp, 16
+	popad
 %endmacro
 
 %macro	printDigit 2
-	sub		esp, 16
-	mov		dword[esp], %1
-	mov		eax, [%2]
-	mov		dword[esp+4], eax
-	call	_printf
-	add		esp, 16
+	pushad
+		sub		esp, 16
+		mov		dword[esp], %1
+		mov		eax, [%2]
+		mov		dword[esp+4], eax
+		call	_printf
+		add		esp, 16
+	popad
 %endmacro
 
 %macro	scan 2
-	sub		esp, 16
-	mov		dword[esp], %1
-	mov		dword[esp+4], %2
-	call	_scanf
-	add		esp, 16
+	pushad
+		sub		esp, 16
+		mov		dword[esp], %1
+		mov		dword[esp+4], %2
+		call	_scanf
+		add		esp, 16
+	popad
 %endmacro
 
 %macro	printGuide 2
-	sub		esp, 16
-	mov		dword[esp], %1
-	mov		dword[esp+4], %2 + Guide.name
-	mov		dword[esp+8], %2 + Guide.price
-	mov		dword[esp+12], %2 + Guide.stock
-	call	_printf
-	add		esp, 16
+	pushad
+		sub		esp, 16
+		mov		dword[esp], %1
+		mov		dword[esp+4], %2 + Guide.name
+		mov		dword[esp+8], %2 + Guide.price
+		mov		dword[esp+12], %2 + Guide.stock
+		call	_printf
+		add		esp, 16
+	popad
+%endmacro
+
+%macro printChange 2
+  pushad
+    sub esp, 16
+    mov dword[esp], %1
+    mov dword[esp+4], %2
+    call _printf
+    add esp, 16
+  popad
+%endmacro
+
+%macro makeChange 1
+  pushad
+		mov  eax, %1
+		mov  edx, 0
+		mov  ecx, 25
+		div  ecx
+		printChange qout, eax
+		print endline
+
+		;dimes
+		mov  eax, edx
+		mov  edx, 0
+		mov  ecx, 10
+		div  ecx
+		printChange dout, eax
+		print endline
+
+		mov  eax, edx
+		mov  edx, 0
+		mov  ecx, 5
+		div  ecx
+		printChange nout, eax
+		print endline
+
+		printChange pout, edx
+  popad
 %endmacro
 
 ;%1 frmt, %2 name, %3 price, %4 stock
 %macro printItem  1-*
-	%rep 	%0
-		sub		esp, 16
-		mov		dword[esp], %1+Items.frmt
-		mov		eax, dword[%1 + Items.num]
-		mov		dword[esp+4], eax
-		mov		dword[esp+8], %1+Items.name
-		mov		eax, dword[%1 + Items.price]
-		mov		dword[esp+12], eax
-		mov		eax, dword[%1 + Items.stock]
-		mov		dword[esp+16], eax
-		call	_printf
-		add		esp, 16
-	%rotate 1
-	%endrep
+	popad
+		%rep 	%0
+			sub		esp, 16
+			mov		dword[esp], %1+Items.frmt
+			mov		eax, dword[%1 + Items.num]
+			mov		dword[esp+4], eax
+			mov		dword[esp+8], %1+Items.name
+			mov		eax, dword[%1 + Items.price]
+			mov		dword[esp+12], eax
+			mov		eax, dword[%1 + Items.stock]
+			mov		dword[esp+16], eax
+			call	_printf
+			add		esp, 16
+			%rotate 1
+		%endrep
+	popad
 %endmacro
 
 %macro	callSys	1
-	sub		esp, 16
-	mov 	dword[esp], %1
-	call	_system
-	add 	esp, 16
+	pushad
+		sub		esp, 16
+		mov 	dword[esp], %1
+		call	_system
+		add 	esp, 16
+	popad
 %endmacro
 
 section .data
@@ -106,16 +160,26 @@ section .data
 	line				db	"--------------------------------------------------", 10, 0
 	item_prmpt	db	"What would you like to buy? (1-6) (0 to exit)", 10 ,0
 	pymnt_prmpt	db	"Please enter the amount of credits you would like to pay with", 10, 0
+	credit_out	db	"Credits: ", 0
+	chnge_prmpt	db	"Thank You!", 10, "Here is your change: ", 10, 0
+	total_prmpt	db	"Total Change: %u Credits", 10, 0
+	retry_prmpt	db  "Would you like to select another item? [y/n]? ", 0
+	goodbye			db  "Thank You! See you next time.", 10 ,0
 	item_input	dd	0
 	pymnt_input	dd	0
 	pymnt_amnt	dd	0
 	credits			dd 	0
-	credit_out	db	"Credits: ", 0
+	restart 		db  0
 
 	guide_frmt	db 	"|%s		|| %s	|| %s |", 10, 0
 	uint_frmt		db	"%d", 0
+	char_fmt		db  " %c", 0
 	itm_frmt		db	"You have selected %s", 10, 0
 	price_frmt	db	"Amount Due: %u credits", 10, 0
+	qout    		db  "%u quarters", 10, 0
+  dout    		db  "%u dimes", 10, 0
+  nout    		db  "%u nickles", 10, 0
+  pout    		db  "%u pennies", 10, 0
 
 	ascii1			db	" __     _______ _   _ ____ ___ _   _  ____   __  __    _    ____ _   _ ___ _   _ _____ ", 10, 0
 	ascii2			db	" \ \   / / ____| \ | |  _ \_ _| \ | |/ ___| |  \/  |  / \  / ___| | | |_ _| \ | | ____|", 10, 0
@@ -170,8 +234,8 @@ section .data
 		istruc	Items
 			at	Items.frmt,		db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 			at	Items.num,		dd	5
-			at	Items.name,		db	"RasberryPie", 0
-			at	Items.price,	dd	356
+			at	Items.name,		db	"Advil 30ct", 0
+			at	Items.price,	dd	100
 			at	Items.stock,	dd	3
 		iend
 
@@ -179,7 +243,7 @@ section .data
 		istruc	Items
 			at	Items.frmt,		db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 			at	Items.num,		dd	6
-			at	Items.name,		db	"Ipad Pro", 0
-			at	Items.price,	dd	1234
+			at	Items.name,		db	"#2 Pencil", 0
+			at	Items.price,	dd	17
 			at	Items.stock,	dd	2
 		iend

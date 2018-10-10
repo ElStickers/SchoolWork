@@ -20,49 +20,50 @@ _main:
 	and		esp, 0xfffffff0
 
 	_begin:
-		callSys		clear
-		print			ascii1
-		print			ascii2
-		print 		ascii3
-		print 		ascii4
-		print 		ascii5
+		callSys			clear
+		print				ascii1
+		print 			ascii2
+		print 			ascii3
+		print 			ascii4
+		print 			ascii5
+		print 			endline
 
-		print				line
-		printGuide	guide_frmt, guide1
 		print 			line
+		printGuide	guide_frmt, guide1
+		print				line
 		printItem 	item1, item2, item3, item4, item5, item6
 		print				line
 
-		print 		item_prmpt
-		scan			uint_frmt, item_input
+		print 			item_prmpt
+		scan				uint_frmt, item_input
 
-		mov 			al, [item_input]
-		cmp				al, 0
-		je				_exit
+		mov 				al, [item_input]
+		cmp					al, 0
+		je					_exit
 
-		mov				al, [item_input]
-		cmp				al, 1
-		je				_output1
+		mov					al, [item_input]
+		cmp					al, 1
+		je					_output1
 
-		mov				al, [item_input]
-		cmp				al, 2
-		je				_output2
+		mov					al, [item_input]
+		cmp					al, 2
+		je					_output2
 
-		mov 			al, [item_input]
-		cmp				al, 3
-		je				_output3
+		mov 				al, [item_input]
+		cmp					al, 3
+		je					_output3
 
-		mov				al, [item_input]
-		cmp				al, 4
-		je				_output4
+		mov					al, [item_input]
+		cmp					al, 4
+		je					_output4
 
-		mov				al, [item_input]
-		cmp				al, 5
-		je				_output5
+		mov					al, [item_input]
+		cmp					al, 5
+		je					_output5
 
-		mov				al, [item_input]
-		cmp				al, 6
-		je				_output6
+		mov					al, [item_input]
+		cmp					al, 6
+		je					_output6
 
 	_output1:
 		outputItem		itm_frmt, item1
@@ -98,6 +99,7 @@ _main:
 		outputItem		itm_frmt, item6
 		mov						eax, [item6+Items.price]
 		mov						[pymnt_amnt], eax
+		print					uint_frmt, eax
 		jmp						_pay
 
 	_pay:
@@ -113,10 +115,35 @@ _main:
 		je						_change
 
 	_change:
-		print 				item_prmpt
-		
+		mov						al,	[credits]
+		sub						al, [pymnt_amnt]
+		mov						[pymnt_amnt], al
+		print					chnge_prmpt
+		makeChange		[pymnt_amnt]
+		print					line
+		printDigit		total_prmpt, pymnt_amnt
+
+	_try_again:
+		print 				endline
+		print 				retry_prmpt
+
+		scan					char_fmt, restart
+
+		mov   				al, [restart]
+		cmp   				al, 96
+		jna   				_check_restart
+		sub  				 al, 32
+
+	_check_restart:
+		cmp 					al, 89
+		je    				_begin
+		cmp 					al, 78
+		jne 					_try_again
+
+
 	_exit:
-	
+		print					goodbye
+
 	mov		esp, ebp
 	mov		eax, 1
 	pop		ebp
