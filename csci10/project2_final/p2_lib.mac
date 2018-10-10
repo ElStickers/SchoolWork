@@ -36,9 +36,14 @@ endstruc
 	add		esp, 16
 %endmacro
 
-%macro	print 1
+%macro	print 1-*
+mov ebx, 0
 	sub 	esp, 16
-	mov		dword[esp], %1
+	%rep %0
+	mov		dword[esp+ebx], %1
+	add ebx, 4
+	%rotate 1
+	%endrep
 	call	_printf
 	add		esp, 16
 %endmacro
