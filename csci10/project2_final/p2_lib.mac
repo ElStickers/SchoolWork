@@ -104,6 +104,8 @@ section .data
 	item_input	dd	0
 	pymnt_input	dd	0
 	pymnt_amnt	dd	0
+	credits			dd 	0
+	credit_out	db	"Credits: ", 0
 
 	guide_frmt	db 	"|%s		|| %s	|| %s |", 10, 0
 	uint_frmt		db	"%d", 0
