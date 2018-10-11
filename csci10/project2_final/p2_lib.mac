@@ -127,19 +127,19 @@ endstruc
 
 ;%1 frmt, %2 name, %3 price, %4 stock
 %macro printItem  1-*
-	popad
+	pushad
 		%rep 	%0
-			sub		esp, 16
+			sub		esp, 32
 			mov		dword[esp], %1+Items.frmt
-			mov		ebx, dword[%1 + Items.num]
-			mov		dword[esp+4], ebx
+			mov		eax, dword[%1 + Items.num]
+			mov		dword[esp+4], eax
 			mov		dword[esp+8], %1+Items.name
-			mov		ebx, dword[%1 + Items.price]
-			mov		dword[esp+12], ebx
-			mov		ebx, dword[%1 + Items.stock]
-			mov		dword[esp+16], ebx
+			mov		eax, dword[%1 + Items.price]
+			mov		dword[esp+12], eax
+			mov		eax, dword[%1 + Items.stock]
+			mov		dword[esp+16], eax
 			call	_printf
-			add		esp, 16
+			add		esp, 32
 			%rotate 1
 		%endrep
 	popad
@@ -165,6 +165,7 @@ section .data
 	total_prmpt	db	"Total Change: %u Credits", 10, 0
 	retry_prmpt	db  "Would you like to select another item? [y/n]? ", 0
 	goodbye			db  "Thank You! See you next time.", 10 ,0
+  soldout			db	"Sorry this item is sold out", 10, 0
 	item_input	dd	0
 	pymnt_input	dd	0
 	pymnt_amnt	dd	0
@@ -174,6 +175,7 @@ section .data
 	guide_frmt	db 	"|%s		|| %s	|| %s |", 10, 0
 	uint_frmt		db	"%d", 0
 	char_fmt		db  " %c", 0
+	print_frmt	db	"|%u) %s		|| %u		|| %u	 |", 10, 0
 	itm_frmt		db	"You have selected %s", 10, 0
 	price_frmt	db	"Amount Due: %u credits", 10, 0
 	qout    		db  "%u quarters", 10, 0

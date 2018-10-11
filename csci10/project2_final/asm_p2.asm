@@ -28,7 +28,7 @@ _main:
 		print 			ascii3
 		print 			ascii4
 		print 			ascii5
-		print 			endline
+		print 			endline 
 
 		print 			line
 		printGuide	guide_frmt, guide1
@@ -69,6 +69,9 @@ _main:
 
 	_output1:
 		outputItem		itm_frmt, item1
+		mov						al, [item1+Items.stock]
+		cmp						al, 0
+		je						_sold_out
 		mov						eax, [item1+Items.price]
 		mov						[pymnt_amnt], eax
 		jmp						_pay
@@ -173,6 +176,9 @@ _main:
 	_dec6:
 		dec 					dword[item6+Items.stock]
 		jmp						_try_again
+
+	_sold_out:
+		print					soldout
 
 	_try_again:
 		print 				endline
