@@ -42,7 +42,7 @@ void Machine::display()	{
 				}
 		}
 		else if(input == 0)	{
-			dud.exit();
+			dud.finalizePurchase();
 		}
 		bool tryAgain = false;
 		while(tryAgain == false)	{
@@ -80,7 +80,7 @@ void Machine::printMenu(unsigned int counter)	{
 	dud.bottomLine();
 	if(counter == 0)	{
 		cout << "Please select the # of item you would like to buy or enter 0 to exit." << endl;
-	}	
+	}
 }
 
 void Machine::finalizePurchase()	{
@@ -338,5 +338,3 @@ Item Machine::makeItem(string input) {
 	}
 	return dud;
 }
-
-
