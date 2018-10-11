@@ -131,13 +131,13 @@ endstruc
 		%rep 	%0
 			sub		esp, 16
 			mov		dword[esp], %1+Items.frmt
-			mov		eax, dword[%1 + Items.num]
-			mov		dword[esp+4], eax
+			mov		ebx, dword[%1 + Items.num]
+			mov		dword[esp+4], ebx
 			mov		dword[esp+8], %1+Items.name
-			mov		eax, dword[%1 + Items.price]
-			mov		dword[esp+12], eax
-			mov		eax, dword[%1 + Items.stock]
-			mov		dword[esp+16], eax
+			mov		ebx, dword[%1 + Items.price]
+			mov		dword[esp+12], ebx
+			mov		ebx, dword[%1 + Items.stock]
+			mov		dword[esp+16], ebx
 			call	_printf
 			add		esp, 16
 			%rotate 1

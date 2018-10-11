@@ -20,6 +20,8 @@ _main:
 	and		esp, 0xfffffff0
 
 	_begin:
+		mov					eax, 0
+		mov					ebx, 0
 		callSys			clear
 		print				ascii1
 		print 			ascii2
@@ -123,6 +125,55 @@ _main:
 		print					line
 		printDigit		total_prmpt, pymnt_amnt
 
+	_decrement_check:
+		mov						al, [item_input]
+		cmp						al, 1
+		je						_dec1
+
+		mov						al, [item_input]
+		cmp						al, 2
+		je						_dec2
+
+		mov						al, [item_input]
+		cmp						al, 3
+		je						_dec3
+
+		mov						al, [item_input]
+		cmp						al, 4
+		je						_dec4
+
+		mov						al, [item_input]
+		cmp						al, 5
+		je						_dec5
+
+		mov						al, [item_input]
+		cmp						al, 6
+		je						_dec6
+
+	_dec1:
+		dec 					dword[item1+Items.stock]
+		jmp						_try_again
+
+	_dec2:
+		dec 					dword[item2+Items.stock]
+		jmp						_try_again
+
+	_dec3:
+		dec 					dword[item3+Items.stock]
+		jmp						_try_again
+
+	_dec4:
+		dec 					dword[item4+Items.stock]
+		jmp						_try_again
+
+	_dec5:
+		dec 					dword[item5+Items.stock]
+		jmp						_try_again
+
+	_dec6:
+		dec 					dword[item6+Items.stock]
+		jmp						_try_again
+
 	_try_again:
 		print 				endline
 		print 				retry_prmpt
@@ -132,7 +183,7 @@ _main:
 		mov   				al, [restart]
 		cmp   				al, 96
 		jna   				_check_restart
-		sub  				 al, 32
+		sub  				 	al, 32
 
 	_check_restart:
 		cmp 					al, 89
