@@ -29,7 +29,7 @@ void Machine::display()	{
 		dud.clearScreen();
 		dud.printMenu(count);
 		if(count == 0)	{
-			input = reader.readInt(0, 6);
+			input = reader.readInt(0, dud.items.size()-1);
 			count++;
 		}
 		else if(count > 1)	{
@@ -71,7 +71,7 @@ void Machine::printMenu(unsigned int counter)	{
 	cout << setfill(' ');
 	while(i < items.size())	{
 		cout << items[i];
-		if(i < 5)	{
+		if(i < items.size()-1)	{
 			cout << endl;
 		}
 		i++;
@@ -84,6 +84,7 @@ void Machine::printMenu(unsigned int counter)	{
 }
 
 void Machine::finalizePurchase()	{
+	CinReader reader;
 	Machine dud;
 	dud.clearScreen();
 	dud.welcome();
@@ -122,20 +123,57 @@ void Machine::finalizePurchase()	{
 	}
 	cout << "How would you like to pay?(Cash(C), Debit(D)" << endl;
 	char choice;
-	cin >> choice;
+	choice = reader.readChar("cd");
 	cout << dud.payment(choice, total);
-	cout << "Goodbye!" << endl;
+	dud.exit();
 	throw exception();
 }
 
 string Machine::payment(char choice, float total)	{
+	CinReader reader;
+	Machine dud;
 	ostringstream oss;
-	oss << choice << fixed << setprecision(2) << total << " lmao" << endl;
+	unsigned int money;
+	if(toupper(choice) == 'C')	{
+		cout << "Please enter the amount of money you would like to pay with.(max $10,000)" << endl;
+		cout << "Payment: $";
+		money = (total*100) + 1;
+		unsigned int payment;
+		payment = reader.readInt(total,10000);
+		payment = payment*100;
+		if(payment >= money)	{
+			money = payment - money;
+			oss << dud.makeChange(money);
+		}
+	}
+	return oss.str();
+}
+
+string Machine::makeChange(unsigned int change)	{
+	ostringstream oss;
+	unsigned int dollars;
+	unsigned int quarters;
+	unsigned int dimes;
+	unsigned int nickels;
+	unsigned int pennies;
+	dollars = (change / 100);
+	quarters = (change % 100) / 25;
+  dimes = ((change % 100) % 25) / 10;
+  nickels = (((change % 100) % 25) % 10) / 5;
+  pennies = (((change % 25) % 10 ) % 5);
+
+	oss << "This is your Change:\n"
+			<< "Amount of dollars: "	<< dollars	<< "\n"
+			<< "Amount of quarters: " << quarters << "\n"
+			<< "Amount of dimes: " << dimes << "\n"
+			<< "Amount of nickels: " << nickels << "\n"
+			<< "Amount of pennies: " << pennies << endl;
 	return oss.str();
 }
 
 void Machine::exit()	{
-	cout << "Goodbye" << endl;
+	cout << setfill('-') << setw(59) << "\n" << endl;
+	cout << "Thanks for shopping! See you next time. Goodbye!" << endl;
 	throw exception();
 }
 

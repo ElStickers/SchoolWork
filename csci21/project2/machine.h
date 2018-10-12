@@ -61,13 +61,13 @@ struct Purchases {
 	string name;
 	float price;
 	unsigned int qty;
-	
+
 	Purchases()	{
 		name = "";
 		price = 0.00;
 		qty = 0;
 	}
-	
+
 	friend ostream& operator<< (ostream& outs, const Purchases& r) {
 	outs << "| ";
 			cout.width(11); cout << left << r.name << "|| ";
@@ -88,6 +88,7 @@ class Machine	{
 		void printMenu(unsigned int counter);
 		void finalizePurchase();
 		string payment(char choice, float total);
+		string makeChange(unsigned int change);
 		void exit();
 		void topLine();
 		void bottomLine();
@@ -96,7 +97,7 @@ class Machine	{
 		bool load(string filename);
 		bool addPurchase(unsigned int item, unsigned int amount);
 		void clearScreen();
-		
+
 	private:
 		vector<Item>items;
 		vector<Purchases>purchase;
