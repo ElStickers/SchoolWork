@@ -1,5 +1,6 @@
 ;Author			: Juan Palos
 ;Name			: project2_lib.mac
+;Description : lib file containing macros and variables for project2
 
 extern _printf
 extern _scanf

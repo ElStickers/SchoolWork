@@ -1,6 +1,6 @@
 ;Author		: Juan Palos
 ;Filename	: asm_project2.asm
-;Description:
+;Description: Projcet 2 Vending Machine
 
 [bits 32]
 
@@ -28,7 +28,7 @@ _main:
 		print 			ascii3
 		print 			ascii4
 		print 			ascii5
-		print 			endline 
+		print 			endline
 
 		print 			line
 		printGuide	guide_frmt, guide1

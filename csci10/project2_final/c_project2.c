@@ -1,4 +1,4 @@
-//project name:	project 1 - vending machine
+//project name:	project 2 - vending machine
 //file name: 	vendmach.c
 //programmer: 	juan palos
 
