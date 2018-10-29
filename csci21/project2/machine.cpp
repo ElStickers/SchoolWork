@@ -32,7 +32,7 @@ void Machine::display()	{
 	unsigned int empty_check = 0;
 	dud.load("vending_machine_items.csv");
 	bool run = true;
-	unsigned int input = 0;
+	unsigned int input = 0;.
 	//main loop that keeps program running until user decides to exit or pays
 	while(run == true)	{
 		//checks to see if vending machine is out of stock
