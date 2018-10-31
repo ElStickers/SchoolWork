@@ -2,23 +2,38 @@
 
 #include "driver.h"
 
-void Driver::hello()  {
-  cout << "hello" << endl;
+void Driver::hello(int argc, vector<string> argVec)  {
+  if(argc < 2)  {
+    throw int(1);
+  } else {
+    cout << argVec[1] << endl;
+  }
 }
 
-void Driver::grabFile(string filename) {
-  cout << "Grabing file..." << endl;
+string Driver::grabFile(string filename) {
+  Driver drive;
+  cout << "Grabing file..." << filename << endl;
   ifstream inputfile(filename);
   string inputString;
+  ostringstream oss;
   if(inputfile.is_open()) {
     while(getline(inputfile, inputString)) {
       if(inputString.find('#') != std::string::npos)  {
         inputString.clear();
       } else  {
-        cout << inputString << endl;
+        oss << drive.runCommands(inputString) << endl;
       }
     }
+  } else {
+    throw int(2);
+  }
+  return oss.str();
+}
+
+string Driver::runCommands(string inputString)  {
+  if(inputString.size() == 1) {
+    return inputString;
   } else  {
-    cout << "Error: " << filename << "File not found." << endl;
+    return inputString;
   }
 }
