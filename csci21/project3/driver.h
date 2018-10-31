@@ -7,10 +7,10 @@
 #include <functional>
 #include <iostream>
 #include <iomanip>
+#include <locale>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <iostream>
 #include <windows.h>
 using std::array;
 using std::cin;
