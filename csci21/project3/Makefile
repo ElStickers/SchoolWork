@@ -4,7 +4,7 @@ CC = c:\mingw\bin\g++
 #RM = del # cmd.exe
 RM = rm -f # PowerShell
 
-project2.exe: driver.o project3.cpp
+project3.exe: driver.o project3.cpp
 	$(CC) $(CPP_FLAGS) driver.o project3.cpp -o project3.exe
 
 driver.o: driver.h driver.cpp
