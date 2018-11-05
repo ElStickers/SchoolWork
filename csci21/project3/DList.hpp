@@ -6,7 +6,7 @@
 using std::cout;
 using std::endl;
 using std::logic_error;
-using std::ostringstream;
+using std::stringstream;
 using std::string;
 
 class DList  {
@@ -22,69 +22,173 @@ public:
     }
 
     ~DList()  {
-      clear();
     }
-
-		/*
-		 * Create a new Node to contain value and insert the Node
-		 * at the head of this DList. Increases the size by 1.
-		 */
-		void pushFront (int value)  {
-      if(empty()) {
-        cout << "MUST CREATE LIST INSTANCE" << endl;
-      }
-    }
-
-		/*
-		 * Create a new Node to contain value and insert the Node
-		 * at the tail of this DList. Increases the size by 1.
-		 */
-		void pushBack (int value);
-
-		/*
-		 * Return the value stored in the head Node.
-		 * @return the value in the head Node
-		 * @throw std::logic_error("EMPTY LIST") when list is empty
-		 */
-		int front () noexcept(false);
 
 		/*
 		 * Return the value stored in the tail Node.
 		 * @return the value in the tail Node
 		 * @throw std::logic_error("EMPTY LIST") when list is empty
 		 */
-		int back () noexcept(false);
+		int back () noexcept(false) {
+			return tail->value;
+		}
 
 		/*
-		 * Return the size (number of Nodes in) of this DList.
-		 * @return the size of this DList
+		 * Free the memory associated with all nodes in the list.
+		 * Resets head to nullptr and size to 0.
 		 */
-		unsigned int getSize () const;
+		void clear ();
 
 		/*
 		 * Check to see if this DList is empty.
 		 * @return true if this DList is empty, else false
 		 */
 		bool empty () const {
-      return (head == nullptr);
+      if(head == nullptr)	{
+				return true;
+			}
+			return false;
     }
 
-    /*
-		 * Free the memory associated with all nodes in the list.
-		 * Resets head to nullptr and size to 0.
+		bool findValue (int value) {
+			bool found = false;
+			Node *marker = head;
+			while(marker != nullptr && marker->value != value) {
+				marker = marker->next;
+			}
+			if(marker->value == value) {
+				found = true;
+			}
+			return found;
+		}
+
+		/*
+		* Return the value stored in the head Node.
+		* @return the value in the head Node
+		* @throw std::logic_error("EMPTY LIST") when list is empty
+		*/
+		int front () noexcept(false) {
+			return head->value;
+		}
+
+		/*
+		 * Return the size (number of Nodes in) of this DList.
+		 * @return the size of this DList
 		 */
-    void clear ()
+		unsigned int getSize () const	{
+			return size;
+		}
+
+		void popBack() {
+			if(tail == head) {
+				delete tail;
+				head = nullptr;
+				tail = nullptr;
+				size--;
+			} else {
+				Node *marker = tail;
+				tail = marker->prev;
+			}
+		}
+
+		void popFront() {
+			if(head == tail) {
+				delete head;
+				head = nullptr;
+				tail = nullptr;
+				size--;
+			} else {
+				Node *marker = head;
+				head = marker->next;
+				size--;
+			}
+		}
+
+		/*
+		 * Create a new Node to contain value and insert the Node
+		 * at the tail of this DList. Increases the size by 1.
+		 */
+		void pushBack (int value) {
+			Node *n1 = new Node(value);
+			if(tail == nullptr) {
+				tail = n1;
+				head = tail;
+			} else {
+				tail->next = n1;
+				n1->prev = tail;
+				tail = n1;
+			}
+			n1 = nullptr;
+			delete n1;
+			size++;
+		}
+
+		/*
+		* Create a new Node to contain value and insert the Node
+		* at the head of this DList. Increases the size by 1.
+		*/
+		void pushFront (int value) {
+			Node *n1 = new Node(value);
+			if(head == nullptr) {
+				head = n1;
+				tail = head;
+			} else {
+				head->prev = n1;
+				n1->next = head;
+				head = n1;
+			}
+			n1 = nullptr;
+			delete n1;
+			size++;
+		}
+
+		void removeAll (int value) {
+			while(removeFirst(value));
+		}
+
+		bool removeFirst (int value) {
+			if(findValue(value)) {
+				Node *marker = head;
+				while(marker != nullptr && marker->value !=value) {
+					marker = marker->next;
+				}
+			  if(marker == tail)	{
+					popBack();
+					return true;
+				} else if(marker == head) {
+					popFront();
+					return true;
+				} else {
+					marker->prev->next = marker->next;
+					marker->next->prev = marker->prev;
+					return true;
+				}
+			}
+			return false;
+		}
 
 		/*
 		 * Return a string representation of this DList.
 		 * Displays the values (starting from head) of each
 		 * node in the list, separated by comma.
  		 *
- 		 * EXAMPLE: "13,-1,0,99,-47"
+ 		 * EXAMPLE: "-13,-1,0,99,147"
  		 *
 		 * @return a string representation of this DList
 		 */
-		string toString () const;
+		string toString () const {
+			Node *marker = head;
+			stringstream ss;
+			while(marker != nullptr) {
+				ss << marker->value;
+				if(marker->next != nullptr) {
+					ss << ",";
+				}
+				marker = marker->next;
+			}
+			return ss.str();
+		}
+
 private:
   unsigned int size;
 		struct Node {
@@ -97,4 +201,4 @@ private:
 				value = newValue;
 			}
 		} *head, *tail;
-}
+};

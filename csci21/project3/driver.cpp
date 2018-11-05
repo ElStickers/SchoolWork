@@ -1,9 +1,9 @@
 //Author  :        Juan Palos
 
 #include "driver.h"
-#include "DLList.hpp"
+//#include "DList.hpp"
 
-void Driver::hello(int argc, vector<string> argVec)  {
+void Driver::argCheck(int argc, vector<string> argVec)  {
   if(argc < 2)  {
     throw int(1);
   } else {
@@ -11,30 +11,29 @@ void Driver::hello(int argc, vector<string> argVec)  {
   }
 }
 
-string Driver::grabFile(string filename) {
+void Driver::grabFile(string filename, DList *&list) {
   Driver drive;
   cout << "Grabing file..." << filename << endl;
   ifstream inputfile(filename);
   string inputString;
-  ostringstream oss;
   if(inputfile.is_open()) {
     while(getline(inputfile, inputString)) {
       if(inputString.find('#') != std::string::npos)  {
         inputString.clear();
       } else  {
-        oss << drive.runCommands(inputString);
+        drive.runCommands(inputString, list);
       }
     }
   } else {
     throw int(2);
   }
-  return oss.str();
+  inputfile.close();
 }
 
-string Driver::runCommands(string inputString)  {
+void Driver::runCommands(string inputString, DList *&list)  {
   istringstream iss(inputString);
   char command;
-  unsigned int number;
+  int number;
   string token;
   int counter = 0;
   stringstream ss;
@@ -50,71 +49,142 @@ string Driver::runCommands(string inputString)  {
     }
     counter++;
   }
-  /*ostringstream oss;
-  oss << "char " <<  command << " int " << number << endl;
-  return oss.str(); */
-  ostringstream oss;
   switch(toupper(command)) {
     case 'A': {
-      oss << command << " : return contents of head node" << endl;
+      cout << command << endl;
+      if(list == nullptr) {
+        cout << "MUST CREAT LIST INSTANCE" << endl;
+        break;
+      } else if(list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        cout << "VALUE " << list->front() << " AT HEAD" << endl;
+      }
       break;
     }
     case 'B': {
-      oss << command << " : add number to back of list. Number: " << number << endl;
+      cout << command << endl;
+      if(list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else {
+        list->pushBack(number);
+        cout << "VALUE " << number << " ADDED TO TAIL" << endl;
+      }
       break;
     }
     case 'C': {
-      oss << command << " : create dynamic list instance" << endl;
+      cout << command << endl;
+      if (list != nullptr)  {
+        delete list;
+      } else {
+        list = new DList;
+        cout << "LIST CREATED" << endl;
+      }
       break;
     }
     case 'D': {
-      oss << command << " : delete the dynamic list instance and set to nullptr" << endl;
+      cout << command << " : delete the dynamic list instance and set to nullptr" << endl;
       break;
     }
     case 'E': {
-      oss << command << " : eliminate all occurrences of number from the list. Number: " << number << endl;
+      cout << command << endl;
+      if (list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if (list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        list->removeAll(number);
+      }
       break;
     }
     case 'F': {
-      oss << command << " : add number to front of list. Number: " << number << endl;
+      cout << command << endl;
+      if (list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else {
+        list->pushFront(number);
+        cout << "VALUE " << number << " ADDED TO HEAD" << endl;
+      }
       break;
     }
     case 'G': {
-      oss << command << " : get number from the list" << endl;
+      cout << command << endl;
+      if (list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if (list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        if(list->findValue(number)) {
+          cout << "VALUE " << number << " FOUND" << endl;
+        } else {
+          cout << "VALUE " << number << " NOT FOUND" << endl;
+        }
+      }
       break;
     }
     case 'I': {
-      oss << command << " : insert number into list (sorted)" << endl;
+      cout << command << " : insert number into list (sorted)" << endl;
       break;
     }
     case 'K': {
-      oss << command << " : pop the tail node" << endl;
+      cout << command << " : pop the tail node" << endl;
       break;
     }
     case 'N': {
-      oss << command << " : return the size of the list" << endl;
+      cout << command << endl;
+      if(list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if(list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        cout << "LIST SIZE IS " << list->getSize() << endl;
+      }
       break;
     }
     case 'P': {
-      oss << command << " : print all items in the list" << endl;
+      cout << command << endl;
+      if(list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if(list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        cout << list->toString() << endl;
+      }
       break;
     }
     case 'R': {
-      oss << command << " : remove the first occurrence of number from the list. Number: " << number << endl;
+      cout << command << endl;
+      if(list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if (list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        if (list->removeFirst(number) == true) {
+          cout << "VALUE " << number << " REMOVED" << endl;
+        } else {
+          cout << "VALUE " << number << " NOT FOUND" << endl;
+        }
+      }
       break;
     }
     case 'T': {
-      oss << command << " : pop the head node" << endl;
+      cout << command << " : pop the head node" << endl;
       break;
     }
     case 'X': {
-      oss << command << " : clear the current list instance of contents" << endl;
+      cout << command << " : clear the current list instance of contents" << endl;
       break;
     }
     case 'Z': {
-      oss << command << " : return contents of tail node" << endl;
+      cout << command << endl;
+      if(list == nullptr) {
+        cout << "MUST CREAT LIST INSTANCE" << endl;
+      } else if(list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        cout << "VALUE " << list->back() << " AT TAIL" << endl;
+      }
       break;
     }
   }
-  return oss.str();
 }

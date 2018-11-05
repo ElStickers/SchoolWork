@@ -1,6 +1,6 @@
 //Author:       Juan Palos
 #pragma once
-
+#include "DList.hpp"
 #include <algorithm>
 #include <array>
 #include <fstream>
@@ -35,9 +35,9 @@ using std::vector;
 
 class Driver  {
 public:
-  void hello(int argc, vector<string> argVec);
-  string grabFile(string filename);
-  string runCommands(string inputString);
+  void argCheck(int argc, vector<string> argVec);
+  void grabFile(string filename, DList *&list);
+  void runCommands(string inputString, DList *&list);
 
 private:
 };
