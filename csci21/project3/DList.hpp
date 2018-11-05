@@ -51,15 +51,14 @@ public:
     }
 
 		bool findValue (int value) {
-			bool found = false;
 			Node *marker = head;
-			while(marker != nullptr && marker->value != value) {
+			while(marker != nullptr) {
+				if(marker->value == value) {
+					return true;
+				}
 				marker = marker->next;
 			}
-			if(marker->value == value) {
-				found = true;
-			}
-			return found;
+			return false;
 		}
 
 		/*
@@ -84,11 +83,11 @@ public:
 				delete tail;
 				head = nullptr;
 				tail = nullptr;
-				size--;
 			} else {
 				Node *marker = tail;
 				tail = marker->prev;
 			}
+			size--;
 		}
 
 		void popFront() {
@@ -96,12 +95,11 @@ public:
 				delete head;
 				head = nullptr;
 				tail = nullptr;
-				size--;
 			} else {
 				Node *marker = head;
 				head = marker->next;
-				size--;
 			}
+			size--;
 		}
 
 		/*
@@ -161,6 +159,7 @@ public:
 				} else {
 					marker->prev->next = marker->next;
 					marker->next->prev = marker->prev;
+					size--;
 					return true;
 				}
 			}

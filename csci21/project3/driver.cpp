@@ -94,6 +94,7 @@ void Driver::runCommands(string inputString, DList *&list)  {
         cout << "LIST EMPTY" << endl;
       } else {
         list->removeAll(number);
+        cout << "VALUE " << number << " ELIMINATED" << endl;
       }
       break;
     }
@@ -127,7 +128,15 @@ void Driver::runCommands(string inputString, DList *&list)  {
       break;
     }
     case 'K': {
-      cout << command << " : pop the tail node" << endl;
+      cout << command << endl;
+      if (list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if (list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        list->popBack();
+        cout << "REMOVED TAIL" << endl;
+      }
       break;
     }
     case 'N': {
@@ -168,7 +177,15 @@ void Driver::runCommands(string inputString, DList *&list)  {
       break;
     }
     case 'T': {
-      cout << command << " : pop the head node" << endl;
+      cout << command << endl;
+      if(list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if (list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        list->popFront();
+        cout << "REMOVED HEAD" << endl;
+      }
       break;
     }
     case 'X': {
