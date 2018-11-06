@@ -20,13 +20,9 @@ _main:
   and     esp, 0xfffffff0
 
   _begin:
-    print           ascii1, endline
-    print           ascii2, endline
-    print           ascii3, endline
-    print           ascii4, endline
-    print           ascii5, endline
-    print           ascii6, endline
-    print           ascii7, endline
+    print           line
+    printAscii      ascii
+    print           line
     printPrompt     array_prmt, [size]
     populateArray   int_frmt, value, array, [size]
     printArray      prnt_frmt, array
