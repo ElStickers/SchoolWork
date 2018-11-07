@@ -21,8 +21,12 @@ _main:
 
   _begin:
     print           line
-    printAscii      ascii
+    print           ascii
     print           line
+    print           menu
+    print           line
+    print           menu_prmpt
+    grabMenuChoice  int_frmt, choice
     printPrompt     array_prmt, [size]
     populateArray   int_frmt, value, array, [size]
     printArray      prnt_frmt, array
