@@ -3,11 +3,11 @@
 #include "driver.h"
 //#include "DList.hpp"
 
-void Driver::argCheck(int argc, vector<string> argVec)  {
-  if(argc < 2)  {
+void Driver::argCheck(int argc)  {
+  if(argc == 1)  {
     throw int(1);
-  } else {
-    cout << argVec[1] << endl;
+  } else if (argc >= 3) {
+    throw int(3);
   }
 }
 
@@ -17,6 +17,7 @@ void Driver::grabFile(string filename, DList *&list) {
   ifstream inputfile(filename);
   string inputString;
   if(inputfile.is_open()) {
+    cout << "Doing some shit..." << endl;
     while(getline(inputfile, inputString)) {
       if(inputString.find('#') != std::string::npos)  {
         inputString.clear();
@@ -124,7 +125,15 @@ void Driver::runCommands(string inputString, DList *&list)  {
       break;
     }
     case 'I': {
-      cout << command << " : insert number into list (sorted)" << endl;
+      cout << command << endl;
+      if(list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if (list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        list->insert(number);
+        cout << "INSERTED " << number << endl;
+      }
       break;
     }
     case 'K': {

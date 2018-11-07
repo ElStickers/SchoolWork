@@ -78,6 +78,25 @@ public:
 			return size;
 		}
 
+		void insert (int value) {
+			Node *marker = head;
+			while(marker != nullptr && marker->value <= value) {
+				marker = marker->next;
+			}
+			if (marker == nullptr) 	{
+				pushBack(value);
+			} else if (marker == head) {
+				pushFront(value);
+			} else {
+				Node *n = new Node(value);
+				n->prev = marker->prev;
+				n->next = marker;
+				marker->prev = n;
+				n->prev->next = n;
+				size++;
+			}
+		}
+
 		void popBack() {
 			if(tail == head) {
 				delete tail;
@@ -86,6 +105,7 @@ public:
 			} else {
 				Node *marker = tail;
 				tail = marker->prev;
+				delete marker;
 			}
 			size--;
 		}

@@ -13,7 +13,7 @@ int main(int argc, char const *argv[]) {
       argVec.push_back(argv[i]);
     }
     Driver temp;
-    temp.argCheck(argCount, argVec);
+    temp.argCheck(argCount);
     string filename = argVec[1];
     temp.grabFile(filename, list);
   } catch (const int& error)  {
@@ -21,7 +21,9 @@ int main(int argc, char const *argv[]) {
       cout << "Error[1]: No command line argument given." << endl;
       return 0;
     } else if (error == 2) {
-      cout << "Error[2]: File not found." << endl;
+      cout << "Error[404 ]: File not found." << endl;
+    } else if (error ==3) {
+      cout << "Error[3]: Too many arguments given." << endl;
     }
   }
   return 0;

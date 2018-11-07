@@ -2,7 +2,6 @@
 #pragma once
 #include "DList.hpp"
 #include <algorithm>
-#include <array>
 #include <fstream>
 #include <functional>
 #include <iostream>
@@ -12,7 +11,6 @@
 #include <string>
 #include <vector>
 #include <windows.h>
-using std::array;
 using std::cin;
 using std::cout;
 using std::exception;
@@ -35,9 +33,8 @@ using std::vector;
 
 class Driver  {
 public:
-  void argCheck(int argc, vector<string> argVec);
+  void argCheck(int argc);
   void grabFile(string filename, DList *&list);
   void runCommands(string inputString, DList *&list);
-
 private:
 };
