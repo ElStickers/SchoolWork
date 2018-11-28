@@ -59,14 +59,6 @@ extern _system
 	popad
 %endmacro
 
-%macro	menuPrint 0
-	pushad
-		sub		esp, 16
-		print
-		add		esp, 16
-	popad
-%endmacro
-
 ;%1 frmt, %2 value, %3 array, %4 size
 %macro populateArray 4
 pushad
@@ -130,6 +122,7 @@ popad
 		add		esp, 16
 	popad
 %endmacro
+
 
 section .data
 endline			db	"", 10, 0

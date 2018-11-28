@@ -30,7 +30,7 @@ _main:
     printPrompt     array_prmt, [size]
     populateArray   int_frmt, value, array, [size]
     printArray      prnt_frmt, array
-
+    
   mov     esp, ebp
   mov     eax, 1
   pop     ebp

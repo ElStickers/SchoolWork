@@ -1,7 +1,7 @@
 //Author  :        Juan Palos
 
 #include "driver.h"
-//#include "DList.hpp"
+//#include "DLList.hpp"
 
 void Driver::argCheck(int argc)  {
   if(argc == 1)  {
@@ -11,7 +11,7 @@ void Driver::argCheck(int argc)  {
   }
 }
 
-void Driver::grabFile(string filename, DList *&list) {
+void Driver::grabFile(string filename, DLList *&list) {
   Driver drive;
   cout << "Grabing file..." << filename << endl;
   ifstream inputfile(filename);
@@ -31,7 +31,7 @@ void Driver::grabFile(string filename, DList *&list) {
   inputfile.close();
 }
 
-void Driver::runCommands(string inputString, DList *&list)  {
+void Driver::runCommands(string inputString, DLList *&list)  {
   istringstream iss(inputString);
   char command;
   int number;
@@ -78,7 +78,7 @@ void Driver::runCommands(string inputString, DList *&list)  {
       if (list != nullptr)  {
         delete list;
       } else {
-        list = new DList;
+        list = new DLList;
         cout << "LIST CREATED" << endl;
       }
       break;

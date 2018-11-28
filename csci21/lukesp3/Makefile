@@ -8,7 +8,7 @@ program.exe: dllist.o program.cpp
 	$(CC) $(CPP_FLAGS) dllist.o program.cpp -o program.exe
 
 dllist.o: dllist.hpp
-	$(CC) $(CPP_FLAGS) -c dllist.hpp -o dllist.o
+	$(CC) $(CPP_FLAGS) dllist.hpp -o dllist.o
 
 clean:
 	$(RM) *.o

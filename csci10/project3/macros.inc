@@ -3,21 +3,21 @@
 ; %2+ are all variables you want to print (value).
 %macro print 1-*
     pushad
-    
+
     mov  ebx, 0
     sub  esp, 16
-    
+
     %rep %0
-        
+
         mov  dword[esp+ebx*4], %1
         inc  ebx
-        
+
     %rotate 1
     %endrep
-    
+
     call _printf
     add  esp, 16
-    
+
     popad
 %endmacro
 
@@ -32,25 +32,25 @@
     mov   dword [esp+4], %2
     call  _scanf
     add   esp, 16
-    
+
     popad
 %endmacro
 
 ; Ensures the user enters correct integers.
 %macro getInteger 0
     pushad
-    
+
     %%_start_get_input:
         print inputPrompt2
         read intFmt, tempInt
-        
+
         cmp  dword[tempInt], 1000
         jg   %%_repeat_get_input
         cmp  dword[tempInt], -1000
         jl   %%_repeat_get_input
-        
+
         jmp  %%_end_get_input
-        
+
     %%_repeat_get_input:
         print endline
         print endline
@@ -58,9 +58,9 @@
         print endline
         print endline
         jmp %%_start_get_input
-        
+
     %%_end_get_input:
-    
+
     popad
 %endmacro
 
@@ -69,23 +69,23 @@
 ; %2 Array size (memory)
 %macro populateArray 2
     pushad
-    
+
     print inputPrompt1
-    
+
     mov  ecx, 0                                  ; ECX will count for the loop and incriment memory.
     %%_start_populate_array:
         mov  edx, [%1+ecx*4]
         getInteger
-        
+
         mov  edx, [tempInt]
         mov  dword[%1+ecx*4], edx                ; Place user input in array.
-        
+
         inc  ecx
         cmp  ecx, [%2]
         jb   %%_start_populate_array
 
         mov  dword[tempInt], 0                   ; Clear tempInt
-    
+
     popad
 %endmacro
 
@@ -134,9 +134,9 @@
 ; %2 Array size (memory)
 %macro printArray 2
     pushad
-    
+
     print arrayFmt1
-    
+
     mov  ecx, 0                                  ; ECX will count for the loop and incriment memory.
     %%_start_print_array:
         mov  edx, [%1+ecx*4]
@@ -145,9 +145,9 @@
         inc  ecx
         cmp  ecx, [%2]
         jb   %%_start_print_array
-        
+
         print endline
-    
+
     popad
 %endmacro
 
@@ -156,7 +156,7 @@
 ; %2 Array size (memory)
 %macro clearArray 2
     pushad
-    
+
     ; Clear array
     mov  ecx, 0                                  ; ECX will count for the loop and incriment memory.
     %%_start_clear_array:
@@ -165,7 +165,7 @@
         inc  ecx
         cmp  ecx, [%2]
         jb   %%_start_clear_array
-        
+
     popad
 %endmacro
 
@@ -174,26 +174,26 @@
 ; %2 Array size (memory)
 %macro getMin 2
     pushad
-    
+
     mov  ecx, 0                                  ; ECX will count for the loop and incriment memory.
     mov  edx, [%1]                               ; EDX will hold the min value
     %%_start_get_min:
         cmp  dword[%1+ecx*4], edx
         jl  %%_smaller_value
-        
+
     %%_loop_check_min:
         inc  ecx
         cmp  ecx, [%2]
         jnz  %%_start_get_min
         jmp  %%_end_get_min
-        
+
     %%_smaller_value:
         mov  edx, dword[%1+ecx*4]
         jmp  %%_loop_check_min
-        
+
     %%_end_get_min:
         mov  [min], edx
-    
+
     popad
 %endmacro
 
@@ -208,17 +208,17 @@
     %%_start_get_max:
         cmp  dword[%1+ecx*4], edx
         jg  %%_larger_value
-        
+
     %%_loop_check_max:
         inc  ecx
         cmp  ecx, [%2]
         jb   %%_start_get_max
         jmp  %%_end_get_max
-        
+
     %%_larger_value:
         mov  edx, dword[%1+ecx*4]
         jmp  %%_loop_check_max
-        
+
     %%_end_get_max:
         mov  [max], edx
 
@@ -285,7 +285,7 @@
 ; %2 Array size (memory)
 %macro printEven 2
     pushad
-    
+
     print evenFmt1
 
     mov  ecx, 0                                  ; ECX will count for the loop and incriment memory.
@@ -294,7 +294,6 @@
         mov  eax, [%1+ecx*4]                     ; EAX will hold the numerator
         mov  ebx, 2                              ; EBX will hold the denominator
         idiv ebx
-        
         cmp  edx, 0
         je   %%_even_value                       ; If the remainder is 0, value was even
 
@@ -328,7 +327,7 @@
         mov  eax, [%1+ecx*4]                     ; EAX will hold the numerator
         mov  ebx, 2                              ; EBX will hold the denominator
         idiv ebx
-        
+
         cmp  edx, 1
         je   %%_odd_value                        ; If the remainder is 1, value was odd
 
