@@ -31,10 +31,11 @@ using std::string;
 using std::stringstream;
 using std::vector;
 
+template <class T>
 class Driver  {
 public:
   void argCheck(int argc);
-  void grabFile(string filename, DLList *&list);
-  void runCommands(string inputString, DLList *&list);
+  void grabFile(string filename, T *&list);
+  void runCommands(string inputString, T *&list);
 private:
 };

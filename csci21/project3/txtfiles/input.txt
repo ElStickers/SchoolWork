@@ -1,0 +1,132 @@
+# check "must create"
+P
+K
+T
+A
+Z
+N
+I 1
+G 1
+D
+# create test list
+C
+P
+K
+T
+A
+Z
+N
+I 22
+G 22
+G 1
+G 29
+A
+Z
+N
+P
+I 21
+G 21
+G 22
+G 29
+G 1029
+A
+Z
+N
+P
+I 100
+G 29
+G 22
+G 21
+G 101
+G 99
+G 100
+Z
+A
+N
+P
+I 21
+P
+I 1
+P
+I 72
+P
+I 72
+P
+I 73
+P
+I 72
+P
+D
+C
+I 4
+P
+I 6
+P
+I 5
+P
+I 3
+P
+I 9
+P
+I 10
+P
+I 1
+P
+I 2
+P
+I 2
+P
+I 1
+P
+I 4
+P
+I 1
+P
+I 1
+P
+I 1
+P
+I 3
+P
+I 4
+P
+A
+Z
+R 2
+P
+E 8
+P
+E 1
+P
+E 4
+P
+R 4
+P
+E 10
+P
+A
+P
+T
+P
+Z
+P
+K
+P
+K
+P
+K
+P
+K
+P
+K
+P
+K
+P
+T
+P
+K
+T
+K
+P
+# HELLO
+D

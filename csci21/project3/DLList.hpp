@@ -9,6 +9,7 @@ using std::logic_error;
 using std::stringstream;
 using std::string;
 
+template <class T>
 class DLList  {
 public:
   /*
@@ -22,27 +23,15 @@ public:
     }
 
     ~DLList()  {
+			clear();
     }
 
-		/*
-		 * Return the value stored in the tail Node.
-		 * @return the value in the tail Node
-		 * @throw std::logic_error("EMPTY LIST") when list is empty
-		 */
-		int back () noexcept(false) {
-			return tail->value;
+		void clear () {
+			while (head != nullptr) {
+				popFront();
+			}
 		}
 
-		/*
-		 * Free the memory associated with all nodes in the list.
-		 * Resets head to nullptr and size to 0.
-		 */
-		void clear ();
-
-		/*
-		 * Check to see if this DLList is empty.
-		 * @return true if this DLList is empty, else false
-		 */
 		bool empty () const {
       if(head == nullptr)	{
 				return true;
@@ -50,7 +39,7 @@ public:
 			return false;
     }
 
-		bool findValue (int value) {
+		bool findValue (T value) {
 			Node *marker = head;
 			while(marker != nullptr) {
 				if(marker->value == value) {
@@ -61,19 +50,11 @@ public:
 			return false;
 		}
 
-		/*
-		* Return the value stored in the head Node.
-		* @return the value in the head Node
-		* @throw std::logic_error("EMPTY LIST") when list is empty
-		*/
-		int front () noexcept(false) {
+		T front () noexcept(false) {
 			return head->value;
 		}
 
-		/*
-		 * Return the size (number of Nodes in) of this DLList.
-		 * @return the size of this DLList
-		 */
+
 		unsigned int getSize () const	{
 			return size;
 		}
@@ -97,6 +78,13 @@ public:
 			}
 		}
 
+		void kill (DLList<int> *&list) {
+			clear();
+			delete head;
+			delete tail;
+			list = nullptr;
+		}
+
 		void popBack() {
 			if(tail == head) {
 				delete tail;
@@ -105,6 +93,7 @@ public:
 			} else {
 				Node *marker = tail;
 				tail = marker->prev;
+				tail->next = nullptr;
 				delete marker;
 			}
 			size--;
@@ -118,15 +107,13 @@ public:
 			} else {
 				Node *marker = head;
 				head = marker->next;
+				head->prev = nullptr;
+				delete marker;
 			}
 			size--;
 		}
 
-		/*
-		 * Create a new Node to contain value and insert the Node
-		 * at the tail of this DLList. Increases the size by 1.
-		 */
-		void pushBack (int value) {
+		void pushBack (T value) {
 			Node *n1 = new Node(value);
 			if(tail == nullptr) {
 				tail = n1;
@@ -141,11 +128,8 @@ public:
 			size++;
 		}
 
-		/*
-		* Create a new Node to contain value and insert the Node
-		* at the head of this DLList. Increases the size by 1.
-		*/
-		void pushFront (int value) {
+
+		void pushFront (T value) {
 			Node *n1 = new Node(value);
 			if(head == nullptr) {
 				head = n1;
@@ -160,11 +144,11 @@ public:
 			size++;
 		}
 
-		void removeAll (int value) {
+		void removeAll (T value) {
 			while(removeFirst(value));
 		}
 
-		bool removeFirst (int value) {
+		bool removeFirst (T value) {
 			if(findValue(value)) {
 				Node *marker = head;
 				while(marker != nullptr && marker->value !=value) {
@@ -179,6 +163,7 @@ public:
 				} else {
 					marker->prev->next = marker->next;
 					marker->next->prev = marker->prev;
+					delete marker;
 					size--;
 					return true;
 				}
@@ -186,21 +171,18 @@ public:
 			return false;
 		}
 
-		/*
-		 * Return a string representation of this DLList.
-		 * Displays the values (starting from head) of each
-		 * node in the list, separated by comma.
- 		 *
- 		 * EXAMPLE: "-13,-1,0,99,147"
- 		 *
-		 * @return a string representation of this DLList
-		 */
+		int tailVal () noexcept(false) {
+			return tail->value;
+		}
+
 		string toString () const {
 			Node *marker = head;
 			stringstream ss;
 			while(marker != nullptr) {
-				ss << marker->value;
-				if(marker->next != nullptr) {
+				if(marker->next == nullptr){
+					ss << marker->value;
+				} else {
+					ss << marker->value;
 					ss << ",";
 				}
 				marker = marker->next;
@@ -213,7 +195,7 @@ private:
 		struct Node {
 			Node *next;
 			Node *prev;
-			int value;
+			T value;
 			Node (int newValue) {
 				next = nullptr;
 				prev = nullptr;

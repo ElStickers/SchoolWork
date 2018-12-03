@@ -3,6 +3,7 @@
 #include "driver.h"
 //#include "DLList.hpp"
 
+template <class T>
 void Driver::argCheck(int argc)  {
   if(argc == 1)  {
     throw int(1);
@@ -11,13 +12,11 @@ void Driver::argCheck(int argc)  {
   }
 }
 
-void Driver::grabFile(string filename, DLList *&list) {
+void Driver::grabFile(string filename, T *&list) {
   Driver drive;
-  cout << "Grabing file..." << filename << endl;
   ifstream inputfile(filename);
   string inputString;
   if(inputfile.is_open()) {
-    cout << "Doing some shit..." << endl;
     while(getline(inputfile, inputString)) {
       if(inputString.find('#') != std::string::npos)  {
         inputString.clear();
@@ -31,7 +30,7 @@ void Driver::grabFile(string filename, DLList *&list) {
   inputfile.close();
 }
 
-void Driver::runCommands(string inputString, DLList *&list)  {
+void Driver::runCommands(string inputString, T *&list)  {
   istringstream iss(inputString);
   char command;
   int number;
@@ -52,7 +51,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
   }
   switch(toupper(command)) {
     case 'A': {
-      cout << command << endl;
       if(list == nullptr) {
         cout << "MUST CREAT LIST INSTANCE" << endl;
         break;
@@ -64,7 +62,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'B': {
-      cout << command << endl;
       if(list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else {
@@ -74,21 +71,20 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'C': {
-      cout << command << endl;
       if (list != nullptr)  {
         delete list;
       } else {
-        list = new DLList;
+        list = new T;
         cout << "LIST CREATED" << endl;
       }
       break;
     }
     case 'D': {
-      cout << command << " : delete the dynamic list instance and set to nullptr" << endl;
+        list->kill(list);
+        cout << "LIST DELETED" << endl;
       break;
     }
     case 'E': {
-      cout << command << endl;
       if (list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else if (list->empty()) {
@@ -100,7 +96,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'F': {
-      cout << command << endl;
       if (list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else {
@@ -110,7 +105,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'G': {
-      cout << command << endl;
       if (list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else if (list->empty()) {
@@ -125,7 +119,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'I': {
-      cout << command << endl;
       if(list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else if (list->empty()) {
@@ -137,7 +130,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'K': {
-      cout << command << endl;
       if (list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else if (list->empty()) {
@@ -149,7 +141,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'N': {
-      cout << command << endl;
       if(list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else if(list->empty()) {
@@ -160,7 +151,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'P': {
-      cout << command << endl;
       if(list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else if(list->empty()) {
@@ -171,7 +161,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'R': {
-      cout << command << endl;
       if(list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else if (list->empty()) {
@@ -186,7 +175,6 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'T': {
-      cout << command << endl;
       if(list == nullptr) {
         cout << "MUST CREATE LIST INSTANCE" << endl;
       } else if (list->empty()) {
@@ -198,17 +186,23 @@ void Driver::runCommands(string inputString, DLList *&list)  {
       break;
     }
     case 'X': {
-      cout << command << " : clear the current list instance of contents" << endl;
+      if(list == nullptr) {
+        cout << "MUST CREATE LIST INSTANCE" << endl;
+      } else if (list->empty()) {
+        cout << "LIST EMPTY" << endl;
+      } else {
+        list->clear();
+        cout << "LIST CLEARED" << endl;
+      }
       break;
     }
     case 'Z': {
-      cout << command << endl;
       if(list == nullptr) {
         cout << "MUST CREAT LIST INSTANCE" << endl;
       } else if(list->empty()) {
         cout << "LIST EMPTY" << endl;
       } else {
-        cout << "VALUE " << list->back() << " AT TAIL" << endl;
+        cout << "VALUE " << list->tailVal() << " AT TAIL" << endl;
       }
       break;
     }
